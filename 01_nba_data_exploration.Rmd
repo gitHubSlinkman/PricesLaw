@@ -1,0 +1,22 @@
+---
+title: "NBA data exploration"
+author: "Craig W. Slinkman"
+date: "6/29/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# NBA
+  
+## Data exploration  
+
+```{r}  
+require( tidyverse )                        # I live in the tidyverse ...
+
+
+```
+
+
