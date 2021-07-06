@@ -15,8 +15,52 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}  
 require( tidyverse )                        # I live in the tidyverse ...
+require( readxl )                           # To read excel spreadsheet ...
+require( cowplot )                          # For professional plots ...
+
+players <- 
+  read_excel( file.path( getwd(),
+                       "data",
+                       "Seasons_Stats.xlsm" ))
+
+names( players ) <- tolower( names(players ))
+
+```
+## Get last season players
+
+```{r}
+years <- 
+  players %>% 
+    pull( year )
+last_year <- years[length( years )]
+
+players_2017 <- 
+  players %>% 
+    filter( year == last_year ) %>% 
+      group_by( player ) %>% 
+        summarize( pts ) %>% 
+          arrange( desc( pts ) )
+
+players_2017
+```
+## Histogram of season points
+
+```{r}
+n_2017 <- dim( players_2017 )[1]
+bins   <- ceiling( log2( n_2017 ))
+breakpoints <- pretty( players_2017$pts, 
+                       n = bins,
+                       high.u.bias = 10 )
+ggplot( players_2017,
+        aes( x = pts, y = ..density..  )) +
+  geom_histogram( bins = bins,
+                  color = 'black',
+                  fill   = 'green' ) +
+  geom_density() +
+  theme_cowplot()
 
 
 ```
+
 
 
