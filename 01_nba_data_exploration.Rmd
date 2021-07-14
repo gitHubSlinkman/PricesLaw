@@ -43,7 +43,7 @@ players_2017 <-
 
 players_2017
 ```
-## Histogram of season points
+## Histogram of 2017 season points
 
 ```{r}
 n_2017 <- dim( players_2017 )[1]
@@ -58,9 +58,7 @@ ggplot( players_2017,
                   fill   = 'green' ) +
   geom_density() +
   theme_cowplot()
-
-
 ```
-
+## Plot of empirical 
 
 
