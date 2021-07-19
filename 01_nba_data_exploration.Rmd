@@ -59,6 +59,45 @@ ggplot( players_2017,
   geom_density() +
   theme_cowplot()
 ```
-## Plot of empirical 
+
+## Plot of empirical distribution function
+
+```{r}
+library(ggplot2)
+
+
+ggplot( players_2017,
+        aes(pts)) + 
+  stat_ecdf(geom = "point")
+
+
+ggplot(players_2017,
+        aes(pts)) + 
+  stat_ecdf(geom = "step")
+
+
+```
+
+## Compute tital points
+
+```{r}
+
+```
+
+
+```{r}
+n <- dim( players_2017)[1]
+n_sqrt <- round( sqrt( n ))
+
+
+( total_points <- sum( players_2017$pts ))
+
+
+max_players <- 
+  players_2017 %>% 
+    slice_max( n_sqrt )
+  
+```
+
 
 

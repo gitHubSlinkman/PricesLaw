@@ -1,0 +1,100 @@
+---
+title: "Generating a pareto distribution"
+author: "Craig W. Slinkman"
+date: "7/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+
+## Initialization
+
+
+
+```{r}
+
+N <- 1024
+P <- 0.5 
+time <- 128
+wealth <- rep( 100, N )
+replication  <- rep(0, N )
+
+experiments <- 
+  tibble( replication, wealth )
+```
+
+## Define plor function
+
+```{r}
+extract <- 
+  function( experiments, rep ){
+    experiments %>% 
+      filter( replication == rep )
+  }
+
+plot <- function( experiment, selection )
+{
+  
+  replication <- 
+    experiment$replication[selection]
+  
+  ggplot( experiment,
+          aes( x = wealth  )) +
+    geom_histogram( bins = 10,
+                    fill = "green",
+                    color = "black" )
+}
+
+```
+
+```{r}
+
+for( replication in 1:time ){
+
+# For each N objects
+  for( i in 1:1024 ){
+      ri <- sample.int( N, size = 2 )
+      f <-  ri[1]
+      s <- ri[2]
+      p <- runif( 1 )
+  
+    if (p < P ) {
+      if( wealth[f] > 0 & wealth[f] > 0){
+        wealth[f] <- wealth[f]   + 1
+        wealth[s] <- wealth[s]   - 1
+      } else {
+         wealth[f]  <- wealth[f] - 1
+         wealth[s]  <- wealth[s] + 1
+      }
+    }
+      }
+   experiment <- 
+     tibble( time, wealth)
+   
+   experiments <- 
+     bind_rows( experiments,
+                experiment )
+  }   
+experiments
+```
+## Test extract function
+
+```{r}
+experiment <- extract( experiments, 0 )
+
+plot( experiment )
+
+
+
+
+```
+
